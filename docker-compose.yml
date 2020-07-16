@@ -1,0 +1,14 @@
+version: '3.6'
+
+services:
+  react-app:
+    container_name: reactexample-develop
+    build:
+      context: src
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/home/app
+      - /home/app/node_modules
+      - /home/app/.next
