@@ -1,4 +1,7 @@
 
+// Higher order component (HOC):
+// An HOC component is a function that takes a component and return a new component.
+
 // not used anymore:
 // const withData = (maxSpeakersToShow) => (Component) => {
 //     const speakers = [
