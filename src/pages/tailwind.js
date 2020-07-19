@@ -24,6 +24,9 @@ function Page() {
           <span className="component-sub-highlight inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
             #winter
           </span>
+          <div className="px-6 py-4 component-sub-highlight ">
+            <button className="btn-blue">Subscribe</button>
+          </div>
         </div>
       </div>
     );
