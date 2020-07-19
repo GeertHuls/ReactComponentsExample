@@ -1,6 +1,6 @@
 function Page() {
     return (
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
+        <div className="component-highlight max-w-sm rounded overflow-hidden shadow-lg">
         <img
           className="w-full"
           src="https://placebear.com/640/360"
@@ -15,13 +15,13 @@ function Page() {
           </p>
         </div>
         <div className="px-6 py-4">
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+          <span className="component-sub-highlight inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
             #photography
           </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+          <span className="component-sub-highlight inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
             #travel
           </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+          <span className="component-sub-highlight inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
             #winter
           </span>
         </div>
