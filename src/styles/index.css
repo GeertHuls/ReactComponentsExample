@@ -5,6 +5,39 @@
 @tailwind components;
 @tailwind utilities;
 
+.heartredbutton {
+  background-image: url('/heart-red.png');
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  background-repeat: no-repeat;
+  width: 35px;
+  height: 35px;
+  float: right;
+}
+
+.heartdarkbutton {
+  background-image: url('/heart-dark.png');
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  background-repeat: no-repeat;
+  width: 35px;
+  height: 35px;
+  float: right;
+}
+
+.heartorangebutton {
+  background-image: url('/heart-orange.png');
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  background-repeat: no-repeat;
+  width: 35px;
+  height: 35px;
+  float: right;
+}
+
 .component-highlight {
     hidden: true;
     border-radius: 0.4rem !important;
@@ -24,3 +57,5 @@
     margin-left: 5px;
     margin-right: 5px;
   }
+
+
