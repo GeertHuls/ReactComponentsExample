@@ -12,3 +12,12 @@ services:
       - ./src:/home/app
       - /home/app/node_modules
       - /home/app/.next
+
+  json-server:
+    container_name: json-server-develop
+    build:
+      context: src
+      dockerfile: Dockerfile
+    command: [ "run", "json-server" ]
+    ports:
+      - 4000:4000
