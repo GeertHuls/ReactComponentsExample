@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import Speaker from '../Speaker/Speaker';
 import SpeakerSearchBar from '../SpeakerSearchBar/SpeakerSearchBar';
@@ -18,20 +18,24 @@ const Speakers = () => {
 
     try {
       await axios.put(`http://localhost:4000/speakers/${speakerRec.id}`, toggledSpeakerRec);
-      setSpeakers(
-        [
+      dispatch({
+        speakers: [
           ...speakers.slice(0, speakerIndex),
           toggledSpeakerRec,
           ...speakers.slice(speakerIndex + 1)
-        ]);
+        ],
+        type: 'GET_ALL_SUCCESS',
+      });
     } catch (e) {
-      setStatus(REQUEST_STATUS.ERROR);
+      dispatch({
+        status: REQUEST_STATUS.ERROR,
+        type: 'UPDATE_STATUS',
+      });
       setError(e);
     }
   }
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [speakers, setSpeakers] = useState([]);
 
   const REQUEST_STATUS = {
     LOADING: 'loading',
@@ -39,7 +43,27 @@ const Speakers = () => {
     ERROR: 'error'
   };
 
-  const [status, setStatus] = useState(REQUEST_STATUS.LOADING);
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'GET_ALL_SUCCESS':
+        return {
+          ...state,
+          status: REQUEST_STATUS.SUCCESS,
+          speakers: action.speakers,
+        };
+      case 'UPDATE_STATUS':
+        return {
+          ...state,
+          status: action.status,
+        };
+    }
+  };
+
+  const [{ speakers, status }, dispatch] = useReducer(reducer, {
+    status: REQUEST_STATUS.LOADING,
+    speakers: [],
+  });
+
   const [error, setError] = useState({});
 
   // the useEffect callback function is called when the 
@@ -49,10 +73,15 @@ const Speakers = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:4000/speakers');
-        setSpeakers(response.data);
-        setStatus(REQUEST_STATUS.SUCCESS);
+        dispatch({
+          speakers: response.data,
+          type: 'GET_ALL_SUCCESS',
+        });
       } catch (e) {
-        setStatus(REQUEST_STATUS.ERROR);
+        dispatch({
+          status: REQUEST_STATUS.ERROR,
+          type: 'UPDATE_STATUS',
+        });
         setError(e);
       }
     }
