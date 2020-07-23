@@ -9,7 +9,7 @@ import {
     PUT_SUCCESS,
   } from '../../actions/request';
 
-const withRequest = (baseUrl, routeName) => (Component) => () => {
+const withRequest = (baseUrl, routeName) => (Component) => (props) => {
 
     const [{ records, status, error }, dispatch] = useReducer(
         requestReducer,
@@ -42,7 +42,7 @@ const withRequest = (baseUrl, routeName) => (Component) => () => {
     }, [baseUrl, routeName] /* This is the react hook dependeny array. This is a list of objects, state and
     props, that when changed, cause a rerender of the page. */);
 
-    const props = {
+    const propsLocal = {
         records,
         status,
         error,
@@ -62,7 +62,7 @@ const withRequest = (baseUrl, routeName) => (Component) => () => {
        }
     };
 
-    return <Component {...props}></Component>
+    return <Component {...props} {...propsLocal}></Component>
 };
 
 export default withRequest;

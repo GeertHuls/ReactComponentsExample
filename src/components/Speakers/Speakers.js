@@ -6,7 +6,7 @@ import { REQUEST_STATUS } from '../../reducers/request';
 
 import withRequest from '../HOCs/withRequest';
 
-const Speakers = ({ records: speakers, status, error, put }) => {
+const Speakers = ({ records: speakers, status, error, put, bgColor }) => {
 
   const onFavoriteToggleHandler = async (speakerRec) => {
     put({
@@ -22,7 +22,7 @@ const Speakers = ({ records: speakers, status, error, put }) => {
   const hasErrored = status === REQUEST_STATUS.ERROR;
 
   return (
-    <div>
+    <div className={bgColor}>
       <SpeakerSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       {isLoading && <div>Loading...</div>}
       {hasErrored && (
