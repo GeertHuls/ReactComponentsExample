@@ -4,6 +4,7 @@ import Speaker from '../Speaker/Speaker';
 import SpeakerSearchBar from '../SpeakerSearchBar/SpeakerSearchBar';
 
 import requestReducer from '../../reducers/request';
+import withRequest from '../HOCs/withRequest';
 
 import {
   GET_ALL_FAILURE,
@@ -112,4 +113,4 @@ const Speakers = () => {
     </div>
   );
 };
-export default Speakers;
+export default withRequest()(Speakers);
