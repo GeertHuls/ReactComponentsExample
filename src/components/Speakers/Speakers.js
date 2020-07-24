@@ -1,88 +1,80 @@
-import React, { useState, } from 'react';
+import React, { useState, useContext } from 'react';
+import { DataContext, DataProvider } from '../../contexts/DataContext';
+
 import Speaker from '../Speaker/Speaker';
 import SpeakerSearchBar from '../SpeakerSearchBar/SpeakerSearchBar';
 
 import { REQUEST_STATUS } from '../../reducers/request';
 
-import Request from '../RPs/Request';
-import SpecialMessageRenderProps from '../RPs/SpecialMessageRenderProps';
+const SpeakersComponent = ({ bgColor }) => {
 
-const Speakers = ({ bgColor }) => {
+  const specialMessage = '';
+
+  const { speakers, status } = useContext(DataContext);
+
+  const onFavoriteToggleHandler = async (speakerRec) => {
+    put({
+      ...speakerRec,
+      isFavorite: !speakerRec.isFavorite
+    });
+  }
 
   const [searchQuery, setSearchQuery] = useState('');
+
+  const success = status === REQUEST_STATUS.SUCCESS;
+  const isLoading = status === REQUEST_STATUS.LOADING;
+  const hasErrored = status === REQUEST_STATUS.ERROR;
 
   return (
     <div className={bgColor}>
       <SpeakerSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <>
-        <SpecialMessageRenderProps>
-          {({ specialMessage }) => {
-            return (
-              <Request baseUrl="http://localhost:4000" routeName="speakers">
-                {({ records: speakers, status, error, put }) => {
-                  const onFavoriteToggleHandler = async (speakerRec) => {
-                    put({
-                      ...speakerRec,
-                      isFavorite: !speakerRec.isFavorite,
-                    });
-                  };
-                  const success = status === REQUEST_STATUS.SUCCESS;
-                  const isLoading = status === REQUEST_STATUS.LOADING;
-                  const hasErrored = status === REQUEST_STATUS.ERROR;
+      
+      {specialMessage && specialMessage.length > 0 && (
+        <div
+          className="bg-orange-100 border-l-8 border-orange-500 text-orange-700 p-4 text-2xl"
+          role="alert"
+        >
+          <p className="font-bold">Special Message</p>
+          <p>{specialMessage}</p>
+        </div>
+      )}
 
-                  return (
-                    <>
-                      {specialMessage && specialMessage.length > 0 && (
-                        <div
-                          className="bg-orange-100 border-l-8 border-orange-500 text-orange-700 p-4 text-2xl"
-                          role="alert"
-                        >
-                          <p className="font-bold">Special Message</p>
-                          <p>{specialMessage}</p>
-                        </div>
-                      )}
-
-                      {isLoading && <div>Loading...</div>}
-                      {hasErrored && (
-                        <div>
-                          Loading error... Is the json-server running? (try "npm
-                          run json-server" at terminal prompt)
-                          <br />
-                          <b>ERROR: {error.message}</b>
-                        </div>
-                      )}
-                      {success && (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-12">
-                          {speakers
-                            .filter((rec) => {
-                              const targetString = `${rec.firstName} ${rec.lastName}`.toLowerCase();
-                              return searchQuery.length === 0
-                                ? true
-                                : targetString.includes(
-                                    searchQuery.toLowerCase(),
-                                  );
-                            })
-                            .map((speaker) => (
-                              <Speaker
-                                key={speaker.id}
-                                {...speaker}
-                                onFavoriteToggle={() =>
-                                  onFavoriteToggleHandler(speaker)
-                                }
-                              />
-                            ))}
-                        </div>
-                      )}
-                    </>
-                  );
-                }}
-              </Request>
-            );
-          }}
-        </SpecialMessageRenderProps>
-      </>
+      {isLoading && <div>Loading...</div>}
+      {hasErrored && (
+        <div>
+          Loading error... Is the json-server running? (try "npm run
+          json-server" at terminal prompt)
+          <br />
+          <b>ERROR: {error.message}</b>
+        </div>
+      )}
+      {success && (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-12">
+        {speakers
+          .filter((rec) => {
+            const targetString = `${rec.firstName} ${rec.lastName}`.toLowerCase();
+            return searchQuery.length === 0
+              ? true
+              : targetString.includes(searchQuery.toLowerCase());
+          })
+          .map((speaker) => (
+              <Speaker key={speaker.id} {...speaker}
+                onFavoriteToggle={() => onFavoriteToggleHandler(speaker)} />
+          ))}
+      </div>
+      )}
     </div>
   );
 };
+
+const Speakers = (props) => { /* reference props in case the 
+                                parent component has assigned any
+                                attributes (eg bgColor). */
+  return (
+    <DataProvider>
+      <SpeakersComponent {...props}></SpeakersComponent>
+    </DataProvider>
+  );
+}
 
 export default Speakers;
