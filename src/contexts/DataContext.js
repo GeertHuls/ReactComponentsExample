@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
@@ -35,10 +35,22 @@ const DataProvider = ({ children }) => {
         },
       ];
 
-  const state = {
+  const [state, setState] = useState({
       speakers: speakers,
-      status: 'success'
-  }
+      status: 'loading'
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setState({
+        speakers: speakers,
+        status: 'success',
+        error: undefined
+      });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <DataContext.Provider value={state}>
       {children}
