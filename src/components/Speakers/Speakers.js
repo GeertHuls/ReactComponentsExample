@@ -10,7 +10,7 @@ const SpeakersComponent = ({ bgColor }) => {
 
   const specialMessage = '';
 
-  const { speakers, status } = useContext(DataContext);
+  const { records: speakers, status, error, put } = useContext(DataContext);
 
   const onFavoriteToggleHandler = async (speakerRec) => {
     put({
@@ -71,7 +71,7 @@ const Speakers = (props) => { /* reference props in case the
                                 parent component has assigned any
                                 attributes (eg bgColor). */
   return (
-    <DataProvider>
+    <DataProvider baseUrl="http://localhost:4000" routeName="speakers">
       <SpeakersComponent {...props}></SpeakersComponent>
     </DataProvider>
   );
