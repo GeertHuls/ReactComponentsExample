@@ -4,7 +4,7 @@ import Layout from '../components/Layout/Layout';
 export default function Page() {
   return (
     <Layout>
-      <Speakers bgColor="bg-gray-500" />
+      <Speakers />
     </Layout>
   );
 }
