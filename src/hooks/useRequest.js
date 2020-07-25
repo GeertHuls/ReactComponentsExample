@@ -7,6 +7,7 @@ import {
     GET_ALL_SUCCESS,
     PUT_FAILURE,
     PUT_SUCCESS,
+    PUT
   } from '../actions/request';
 
 const useRequest = (baseUrl, routeName) => {
@@ -68,6 +69,10 @@ const useRequest = (baseUrl, routeName) => {
         // The useCallback hook memoizes our callback so it doesn't force a rerender.
         put: React.useCallback(async (record) => {
             try {
+                dispatch({
+                    type: PUT,
+                    record,
+                });
                 await axios.put(`${baseUrl}/${routeName}/${record.id}`, record);
                 dispatch({
                     type: PUT_SUCCESS,
