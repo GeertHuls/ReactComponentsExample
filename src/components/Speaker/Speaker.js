@@ -31,7 +31,7 @@ const SpeakerComponent = ({ id, bio, firstName, lastName, isFavorite, put }) => 
 // React.memo returns a cached version in case the output hasn't changed.
 const Speaker = React.memo((props) => {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary errorUI={<div>Something went wrong in the speaker card.</div>}>
       <SpeakerComponent {...props} />
     </ErrorBoundary>
   );
