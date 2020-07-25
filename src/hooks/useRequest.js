@@ -45,7 +45,8 @@ const useRequest = (baseUrl, routeName) => {
         records,
         status,
         error,
-        put: async (record) => {
+        // The useCallback hook memoizes our callback so it doesn't force a rerender.
+        put: React.useCallback(async (record) => {
             try {
                 await axios.put(`${baseUrl}/${routeName}/${record.id}`, record);
                 dispatch({
@@ -58,7 +59,7 @@ const useRequest = (baseUrl, routeName) => {
                     error: e,
                 });
             }
-       }
+       }, [])
     };
 
     return propsLocal;
