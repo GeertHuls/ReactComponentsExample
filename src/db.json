@@ -14,7 +14,7 @@
         "firstName": "Craig",
         "lastName": "Berntson",
         "isFavorite": true,
-        "bio": "Craig has a passion for community and helping other developers improve their skills. He writes the column \"Software Gardening\" in DotNet Curry Magazine and is the co-author of \"Continuous Integration in .NET\" available from Manning.",
+        "xbio": "Craig has a passion for community and helping other developers improve their skills. He writes the column \"Software Gardening\" in DotNet Curry Magazine and is the co-author of \"Continuous Integration in .NET\" available from Manning.",
         "sat": true,
         "sun": true
       },
