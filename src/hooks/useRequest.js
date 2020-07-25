@@ -19,25 +19,45 @@ const useRequest = (baseUrl, routeName) => {
         },
     );
 
+    // To be safe we use React.useRef to guarantee that our reference
+    // to the axios token is not disposed of during the lifetime of our component.
+    // That is when the cleanup method of the component is called, we are
+    // guaranteed to have this token reference.
+    const signal = React.useRef(axios.CancelToken.source());
+
     // the useEffect callback function is called when the 
     // component is ready to be interacted with. This is similar
     // to componentDidMount if we were using React classes.
     useEffect(() => {
         const fetchData = async () => {
                 try {
-                    const response = await axios.get(`${baseUrl}/${routeName}`);
+                    const response = await axios.get(`${baseUrl}/${routeName}`, {
+                        cancelToken: signal.current.token
+                    });
                     dispatch({
                         type: GET_ALL_SUCCESS,
                         records: response.data,
                     });
                 } catch (e) {
-                    dispatch({
-                        type: GET_ALL_FAILURE,
-                        error: e,
-                });
+                    console.log('Loading data error', e);
+                    if (axios.isCancel(e)) {
+                        console.log('Get request is cancelled');
+                    }
+                    else {
+                        dispatch({
+                            type: GET_ALL_FAILURE,
+                            error: e,
+                        });
+                    }
             }
         };
         fetchData();
+        // In the cleanup method, before the component finally closes,
+        // we call cancel on the axios token.
+        return () => {
+            console.log('Unmount and cancel running axios request.');
+            signal.current.cancel();
+        }
     }, [baseUrl, routeName] /* This is the react hook dependeny array. This is a list of objects, state and
     props, that when changed, cause a rerender of the page. */);
 
